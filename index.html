@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
@@ -1061,10 +1061,30 @@
   <script>
     function handleSubmit(e) {
       e.preventDefault();
-      const btn = e.target.querySelector('.btn-primary');
-      btn.textContent = '✓ Solicitação enviada com sucesso!';
+      var f = e.target;
+      function g(id){ var el = f.querySelector('#'+id); return el ? String(el.value).trim() : ''; }
+      var nome = g('nome'), tel = g('telefone'), email = g('email'), cidade = g('cidade'),
+          tempo = g('tempo-rural'), atividade = g('atividade'), situacao = g('situacao'), obs = g('obs');
+      var L = [];
+      L.push('🌾 *NOVA SOLICITACAO - APOSENTADORIA RURAL*');
+      L.push('_Cliente vindo do site de aposentadoria rural_');
+      L.push('');
+      L.push('*Nome:* ' + nome);
+      L.push('*WhatsApp/Telefone:* ' + tel);
+      if (email) L.push('*E-mail:* ' + email);
+      L.push('*Cidade/Estado:* ' + cidade);
+      L.push('*Tempo de trabalho rural:* ' + tempo);
+      L.push('*Atividade rural:* ' + atividade);
+      L.push('*Situacao atual:* ' + situacao);
+      if (obs) L.push('*Informacoes adicionais:* ' + obs);
+      var msg = encodeURIComponent(L.join('\n'));
+      var url = 'https://wa.me/5566999155486' + '?' + 'text=' + msg;
+      var btn = f.querySelector('.btn-primary');
       btn.style.background = '#2D5A3D';
-      btn.disabled = true;
+      btn.textContent = '✓ Abrindo o WhatsApp...';
+      var w = window.open(url, '_blank');
+      if (!w) { window.location.href = url; }
+      setTimeout(function(){ btn.textContent = '✓ Enviado! Confirme o envio no WhatsApp'; btn.disabled = true; }, 900);
     }
 
     // Animações de entrada
